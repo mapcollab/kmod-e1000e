@@ -43,7 +43,8 @@ DRIVER_NAME = e1000e
 
 # Kernel Search Path
 # All the places we look for kernel source
-KSP :=  /lib/modules/$(BUILD_KERNEL)/build \
+KSP :=  $(KERNEL_SRC) \
+        /lib/modules/$(BUILD_KERNEL)/build \
         /lib/modules/$(BUILD_KERNEL)/source \
         /lib/modules/$(BUILD_KERNEL)-default/build \
         /usr/src/linux-$(BUILD_KERNEL) \
