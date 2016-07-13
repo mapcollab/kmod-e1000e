@@ -69,3 +69,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
+* Wed Jul 13 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.4-1
+- new package built with tito
+
