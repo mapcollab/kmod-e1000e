@@ -2,7 +2,7 @@
 Name:    kmod-%{kmod_name}
 Summary: Intel(R) Gigabit Ethernet Connection
 Version: 3.3.4
-Release: 1
+Release: 2
 Source: %{name}-%{version}.tar.gz
 Vendor: Intel Corporation
 License: GPL
@@ -69,6 +69,11 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
+* Mon Aug 01 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.4-2
+- tito: use release tagger (tomasz.rostanski@thalesgroup.com.pl)
+- kmod-igb.spec: overwrite mainline kernel driver if present
+  (tomasz.rostanski@thalesgroup.com.pl)
+
 * Wed Jul 13 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.4-1
 - new package built with tito
 
