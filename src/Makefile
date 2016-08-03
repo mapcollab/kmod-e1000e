@@ -226,6 +226,14 @@ ifeq ($(SMP),1)
   EXTRA_CFLAGS += -D__SMP__
 endif
 
+# Don't set gcc-i-sys.sh until after our $(shell) invocations of ${CC}
+ifneq ($(wildcard ./gcc-i-sys.sh),)
+GCC_I_SYS := $(shell readlink -f ./gcc-i-sys.sh)
+$(shell chmod +x ${GCC_I_SYS})
+export REAL_CC := ${CC}
+export CC := ${GCC_I_SYS}
+endif
+
 ###########################################################################
 # Kernel Version Specific rules
 
@@ -245,9 +253,9 @@ $(DRIVER_NAME)-objs := $(CFILES:.c=.o)
 else
 default:
 ifeq ($(KOBJ),$(KSRC))
-	$(MAKE) -C $(KSRC) SUBDIRS=$(shell pwd) modules
+	$(MAKE) -C $(KSRC) CC=${CC} SUBDIRS=$(shell pwd) modules
 else
-	$(MAKE) -C $(KSRC) O=$(KOBJ) SUBDIRS=$(shell pwd) modules
+	$(MAKE) -C $(KSRC) CC=${CC} O=$(KOBJ) SUBDIRS=$(shell pwd) modules
 endif
 endif
 
@@ -285,7 +293,7 @@ $(TARGET): $(filter-out $(TARGET), $(CFILES:.c=.o))
 
 $(CFILES:.c=.o): $(HFILES) Makefile
 default:
-	$(MAKE)
+	$(MAKE) CC=${CC}
 
 endif # ifeq (1,$(shell [ $(KVER_CODE) -ge 132352 ] && echo 1 || echo 0))
 
@@ -358,3 +366,5 @@ else
 	$(MAKE) -C $(KSRC) O=$(KOBJ) SUBDIRS=$(shell pwd) clean
 endif
 	rm -rf $(TARGET) $(TARGET:.ko=.o) $(TARGET:.ko=.mod.c) $(TARGET:.ko=.mod.o) $(CFILES:.c=.o) $(MANFILE).gz .*cmd .tmp_versions Module.markers Module.symvers modules.order
+
+.NOTPARALLEL:

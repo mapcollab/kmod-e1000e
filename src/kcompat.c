@@ -707,8 +707,8 @@ int _kc_skb_pad(struct sk_buff *skb, int pad)
 
 	ntail = skb->data_len + pad - (skb->end - skb->tail);
 	if (likely(skb_cloned(skb) || ntail > 0)) {
-		if (pskb_expand_head(skb, 0, ntail, GFP_ATOMIC)) ;
-		goto free_skb;
+		if (pskb_expand_head(skb, 0, ntail, GFP_ATOMIC))
+			goto free_skb;
 	}
 #ifdef MAX_SKB_FRAGS
 	if (skb_is_nonlinear(skb) && !__pskb_pull_tail(skb, skb->data_len))
@@ -791,8 +791,7 @@ void _kc_free_netdev(struct net_device *netdev)
 {
 	struct adapter_struct *adapter = netdev_priv(netdev);
 
-	if (adapter->config_space != NULL)
-		kfree(adapter->config_space);
+	kfree(adapter->config_space);
 #ifdef CONFIG_SYSFS
 	if (netdev->reg_state == NETREG_UNINITIALIZED) {
 		kfree((char *)netdev - netdev->padded);
