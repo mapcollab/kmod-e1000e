@@ -69,6 +69,9 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
+* Wed Aug 03 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.5-1
+- Driver update to version 3.3.5 (tomasz.rostanski@thalesgroup.com.pl)
+
 * Mon Aug 01 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.4-2
 - tito: use release tagger (tomasz.rostanski@thalesgroup.com.pl)
 - kmod-igb.spec: overwrite mainline kernel driver if present
