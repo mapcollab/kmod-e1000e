@@ -69,6 +69,10 @@ rm -rf %{buildroot}
 #%attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
+* Wed Aug 03 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.5-2
+- kmod-e1000e.spec: do not modprobe the driver automatically
+  (tomasz.rostanski@thalesgroup.com.pl)
+
 * Wed Aug 03 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.5-1
 - Driver update to version 3.3.5 (tomasz.rostanski@thalesgroup.com.pl)
 
