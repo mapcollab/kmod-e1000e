@@ -2,7 +2,7 @@
 Name:    kmod-%{kmod_name}
 Summary: Intel(R) Gigabit Ethernet Connection
 Version: 3.3.5
-Release: 1
+Release: 2
 Source: %{name}-%{version}.tar.gz
 Vendor: Intel Corporation
 License: GPL
@@ -44,9 +44,9 @@ make -C src KERNEL_SRC=%{_usrsrc}/kernels/%{kversion}
 
 %install
 %{__install} -d %{buildroot}/lib/modules/%{kversion}/drivers/net/ethernet/intel/%{kmod_name}/
-%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig/modules/
 %{__install} src/%{kmod_name}.ko %{buildroot}/lib/modules/%{kversion}/drivers/net/ethernet/intel/%{kmod_name}/
-%{__install} kmod-%{kmod_name}.modules %{buildroot}%{_sysconfdir}/sysconfig/modules/
+#%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig/modules/
+#%{__install} kmod-%{kmod_name}.modules %{buildroot}%{_sysconfdir}/sysconfig/modules/
 
 # Sign the modules(s).
 %if %{?_with_modsign:1}%{!?_with_modsign:0}
@@ -66,7 +66,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %attr(0755,root,root) /lib/modules/%(echo %{kversion})/drivers/net/ethernet/intel/%{kmod_name}/%{kmod_name}.ko
-%attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
+#%attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
 * Wed Aug 03 2016 Tomasz Rostanski <tomasz.rostanski@thalesgroup.com> 3.3.5-1
