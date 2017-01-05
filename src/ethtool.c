@@ -248,7 +248,8 @@ static int e1000_get_settings(struct net_device *netdev,
 		ecmd->eth_tp_mdix_ctrl = ETH_TP_MDI_AUTO;
 	else
 		ecmd->eth_tp_mdix_ctrl = hw->phy.mdix;
-
+	if (hw->phy.media_type != e1000_media_type_copper)
+		ecmd->eth_tp_mdix_ctrl = ETH_TP_MDI_INVALID;
 #endif
 #endif /* ETH_TP_MDI_X */
 	return 0;
@@ -286,8 +287,13 @@ static int e1000_set_spd_dplx(struct e1000_adapter *adapter, u32 spd, u8 dplx)
 		mac->forced_speed_duplex = ADVERTISE_100_FULL;
 		break;
 	case SPEED_1000 + DUPLEX_FULL:
-		mac->autoneg = 1;
-		adapter->hw.phy.autoneg_advertised = ADVERTISE_1000_FULL;
+		if (adapter->hw.phy.media_type == e1000_media_type_copper) {
+			mac->autoneg = 1;
+			adapter->hw.phy.autoneg_advertised =
+			    ADVERTISE_1000_FULL;
+		} else {
+			mac->forced_speed_duplex = ADVERTISE_1000_FULL;
+		}
 		break;
 	case SPEED_1000 + DUPLEX_HALF:	/* not supported */
 	default:
@@ -822,8 +828,6 @@ static void e1000_get_drvinfo(struct net_device *netdev,
 
 	strlcpy(drvinfo->bus_info, pci_name(adapter->pdev),
 		sizeof(drvinfo->bus_info));
-	drvinfo->regdump_len = e1000_get_regs_len(netdev);
-	drvinfo->eedump_len = e1000_get_eeprom_len(netdev);
 }
 
 static void e1000_get_ringparam(struct net_device *netdev,
@@ -2004,7 +2008,7 @@ static void e1000_diag_test(struct net_device *netdev,
 
 		if (if_running)
 			/* indicate we're in test mode */
-			dev_close(netdev);
+			e1000e_close(netdev);
 
 		if (e1000_reg_test(adapter, &data[0]))
 			eth_test->flags |= ETH_TEST_FL_FAILED;
@@ -2037,7 +2041,7 @@ static void e1000_diag_test(struct net_device *netdev,
 
 		clear_bit(__E1000_TESTING, &adapter->state);
 		if (if_running)
-			dev_open(netdev);
+			e1000e_open(netdev);
 	} else {
 		/* Online tests */
 

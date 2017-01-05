@@ -263,7 +263,7 @@ static void e1000_toggle_lanphypc_pch_lpt(struct e1000_hw *hw)
 	mac_reg &= ~E1000_CTRL_LANPHYPC_VALUE;
 	ew32(CTRL, mac_reg);
 	e1e_flush();
-	usleep_range(10, 20);
+	usleep_range(1000, 2000);
 	mac_reg &= ~E1000_CTRL_LANPHYPC_OVERRIDE;
 	ew32(CTRL, mac_reg);
 	e1e_flush();

@@ -1,8 +1,8 @@
 %define kmod_name e1000e
 Name:    kmod-%{kmod_name}
 Summary: Intel(R) Gigabit Ethernet Connection
-Version: 3.3.5
-Release: 2
+Version: 3.3.5.3
+Release: 1
 Source: %{name}-%{version}.tar.gz
 Vendor: Intel Corporation
 License: GPL

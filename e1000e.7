@@ -67,11 +67,16 @@ increased CPU utilization, though it may help throughput in some circumstances.
   increase latency as packets are not processed as quickly.
 
  .IP
+
 NOTE:
 - InterruptThrottleRate takes precedence over the TxAbsIntDelay and
   RxAbsIntDelay parameters. In other words, minimizing the receive and/or
   transmit absolute delays does not force the controller to generate more
   interrupts than what the Interrupt Throttle Rate allows.
+
+
+
+
 .LP
 .B RxIntDelay
 .IP
@@ -177,7 +182,6 @@ A link between two EEE-compliant devices will result in periodic bursts of
 data followed by periods where the link is in an idle state. This Low Power
 Idle (LPI) state is supported in both 1 Gbps and 100 Mbps link speeds.
 
-NOTE: EEE support requires auto-negotiation.
 .LP
 .B Node
 .IP
@@ -211,6 +215,7 @@ NOTES:
   with the maximum Jumbo Frames size of 9018 bytes.
 - Using Jumbo frames at 10 or 100 Mbps is not supported and may result in
   poor performance or loss of link.
+
 See the section "Jumbo Frames" in the Readme.
 .SH ethtool
 .LP
@@ -233,24 +238,27 @@ partner to identical settings to establish link and pass packets. This
 should only be needed when attempting to link with an older switch that
 does not support auto-negotiation or one that has been forced to a specific
 speed or duplex mode. Your link partner must match the setting you choose.
+1 Gbps speeds and higher cannot be forced. Use the autonegotiation
+advertising setting to manually set devices for 1 Gbps and higher.
 
-Speed and Duplex are configured through the ethtool* utility. ethtool is
-included with all versions of Red Hat after Red Hat 7.2. For other Linux
-distributions, download and install ethtool from the following website:
+
+Speed, duplex, and autonegotiation advertising are configured through
+the ethtool* utility. ethtool is included with all versions of Red Hat
+after Red Hat 7.2. For the latest version, download and install
+ethtool from the following website:
 
    http://ftp.kernel.org/pub/software/network/ethtool/
 
+
 Caution: Only experienced network administrators should force speed and
-duplex manually. The settings at the switch must always match the adapter
-settings. Adapter performance may suffer or your adapter may not
-operate if you configure the adapter differently from your switch.
+duplex or change autonegotiation advertising manually. The settings at
+the switch must always match the adapter settings. Adapter performance
+may suffer or your adapter may not operate if you configure the adapter
+differently from your switch.
 
 An Intel(R) Network Adapter using fiber-based connections, however, will not
 attempt to auto-negotiate with its link partner since those adapters operate
 only in full duplex and only at their native speed.
-
-NOTE: For the Intel(R) Ethernet Connection X552 10 GbE SFP+ you must specify
-the desired speed. 
 
 .SH NAPI
 .LP

@@ -405,6 +405,7 @@ struct e1000_adapter {
 #elif defined(HAVE_PM_QOS_REQUEST_LIST)
 	struct pm_qos_request_list pm_qos_req;
 #endif
+	s32 ptp_delta;
 	u16 eee_advert;
 };
 
@@ -516,6 +517,7 @@ s32 e1000e_get_base_timinca(struct e1000_adapter *adapter, u32 *timinca);
 #define FLAG2_PCIM2PCI_ARBITER_WA         BIT(11)
 #define FLAG2_DFLT_CRC_STRIPPING          BIT(12)
 #define FLAG2_CHECK_RX_HWTSTAMP           BIT(13)
+#define FLAG2_CHECK_SYSTIM_OVERFLOW       BIT(14)
 
 #define E1000_RX_DESC_PS(R, i)	    \
 	(&(((union e1000_rx_desc_packet_split *)((R).desc))[i]))
@@ -552,6 +554,8 @@ extern void e1000e_led_blink_task(struct work_struct *work);
 extern int ethtool_ioctl(struct ifreq *ifr);
 #endif
 
+int e1000e_open(struct net_device *netdev);
+int e1000e_close(struct net_device *netdev);
 void e1000e_up(struct e1000_adapter *adapter);
 void e1000e_down(struct e1000_adapter *adapter, bool reset);
 void e1000e_reinit_locked(struct e1000_adapter *adapter);
