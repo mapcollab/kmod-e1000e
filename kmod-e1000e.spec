@@ -2,7 +2,7 @@
 Name:    kmod-%{kmod_name}
 Summary: Intel(R) Gigabit Ethernet Connection
 Version: 3.3.5.3
-Release: 1
+Release: 1%{?kpkgversion:%(echo .%{kpkgversion} | tr - _)}
 Source: %{name}-%{version}.tar.gz
 Vendor: Intel Corporation
 License: GPL
