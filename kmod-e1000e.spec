@@ -34,19 +34,12 @@ echo 'kversion (path to kernel src) and kpkgversion (version of kernel pkg) must
 exit 1
 %endif
 
-%{__cat} <<EOF > kmod-%{kmod_name}.modules
-#!/bin/bash
-modprobe %{kmod_name} &>/dev/null
-EOF
-
 %build
 make -C src KERNEL_SRC=%{_usrsrc}/kernels/%{kversion}
 
 %install
 %{__install} -d %{buildroot}/lib/modules/%{kversion}/drivers/net/ethernet/intel/%{kmod_name}/
 %{__install} src/%{kmod_name}.ko %{buildroot}/lib/modules/%{kversion}/drivers/net/ethernet/intel/%{kmod_name}/
-#%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig/modules/
-#%{__install} kmod-%{kmod_name}.modules %{buildroot}%{_sysconfdir}/sysconfig/modules/
 
 # Sign the modules(s).
 %if %{?_with_modsign:1}%{!?_with_modsign:0}
@@ -66,7 +59,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %attr(0755,root,root) /lib/modules/%(echo %{kversion})/drivers/net/ethernet/intel/%{kmod_name}/%{kmod_name}.ko
-#%attr(0755,root,root) %{_sysconfdir}/sysconfig/modules/kmod-%{kmod_name}.modules
 
 %changelog
 * Fri Jan 13 2017 Michal Gawlik <michal.gawlik@thalesgroup.com> 3.3.5.3-1
