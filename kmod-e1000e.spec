@@ -2,7 +2,7 @@
 Name:    kmod-%{kmod_name}
 Summary: Intel(R) Gigabit Ethernet Connection
 Version: 3.3.5.3
-Release: 1%{?kpkgversion:%(echo .%{kpkgversion} | tr - _)}
+Release: 2%{?kpkgversion:%(echo .%{kpkgversion} | tr - _)}
 Source: %{name}-%{version}.tar.gz
 Vendor: Intel Corporation
 License: GPL
@@ -61,6 +61,10 @@ rm -rf %{buildroot}
 %attr(0755,root,root) /lib/modules/%(echo %{kversion})/drivers/net/ethernet/intel/%{kmod_name}/%{kmod_name}.ko
 
 %changelog
+* Fri Feb 24 2017 Michal Gawlik <michal.gawlik@thalesgroup.com> 3.3.5.3-2
+- spec: remove old method of module autoloading (michal.gawlik@thalesgroup.com)
+- spec: add used kernel version (michal.gawlik@thalesgroup.com)
+
 * Fri Jan 13 2017 Michal Gawlik <michal.gawlik@thalesgroup.com> 3.3.5.3-1
 - Update driver to 3.3.5.3 (tomasz.rostanski@thalesgroup.com.pl)
 
